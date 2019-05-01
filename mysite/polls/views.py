@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import auth
@@ -17,6 +18,8 @@ def login(request):
         print(username, password, user)
         if user:
             auth.login(request, user)
+            if user.groups.filter(name='HR Manager').exists():
+                return redirect('/admin/polls/dayoff/')
             return redirect('index')
 
         context['username'] = username
@@ -30,7 +33,7 @@ def logout(request):
     auth.logout(request)
     return redirect('login')
 
-
+@login_required
 def index(request):
     context = {}
     user = request.user
@@ -38,7 +41,7 @@ def index(request):
     context['alldayoff'] = alldayoff
     return render(request, template_name='polls/index.html', context=context)
 
-
+@login_required
 def dayoff(request):
     context = {}
     if request.method == 'POST':
