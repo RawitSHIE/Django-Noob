@@ -12,8 +12,8 @@ class Dayoff(models.Model):
         (BUSINESS, 'business')
     )
     type = models.CharField(max_length=10, choices=TYPES, default=SICK)
-    date_start = models.DateField()
-    date_end = models.DateField()
+    date_start = models.DateField(blank=False, null=True)
+    date_end = models.DateField(blank=False, null=True)
     PENDING = 'pending'
     DISAPPROVE = 'disapprove'
     APPROVE = 'approve'
@@ -23,4 +23,4 @@ class Dayoff(models.Model):
         (APPROVE, 'approve')
     )
 
-    approve_status = models.CharField(max_length=10,choices=APPROVE_TYPE, default=PENDING)
+    approve_status = models.CharField(max_length=10, choices=APPROVE_TYPE, default=PENDING)

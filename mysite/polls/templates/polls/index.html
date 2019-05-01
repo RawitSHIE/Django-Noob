@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-<div class="container">
+<div class="container"  style="margin-top: 100px">
     <h1>
         รายการคำขอลางานของฉัน
     </h1>
@@ -20,12 +20,53 @@
                 <th scope="col">สาเหตุ</th>
                 <th scope="col">ตั่งแต่วันที่</th>
                 <th scope="col">ถึงวันที่</th>
+                <th scope="col">สถานะ</th>
             </thread>
-        </table>
+        <tbody>
+        {% for paper in alldayoff %}
+                <tr>
+                    <td>
+                        {{ paper.type }}
+                    </td>
+                    <td>
+                        {{ paper.reason }}
+                    </td>
+                    <td>
+                        {{ paper.date_start }}
+                    </td>
+                    <td>
+                        {{ paper.date_end }}
+                    </td>
+                    <td>
+                        {% if paper.approve_status == 'pending' %}
+                            <span class="badge badge-secondary">
+                                {{ paper.approve_status }}
+                            </span>
+                        {% endif %}
+                        {% if paper.approve_status == 'disapprove' %}
+                            <span class="badge badge-danger">
+                                {{ paper.approve_status }}
+                            </span>
+                        {% endif %}
+                        {% if paper.approve_status == 'approve' %}
+                            <span class="badge badge-success">
+                                {{ paper.approve_status }}
+                            </span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
 
-    <button class="btn btn-primary" >
-        ยื่นคำขอลางาน
-    </button>
+        </table>
+    <a href="{% url 'dayoff' %}">
+        <button class="btn btn-primary" >
+            ยื่นคำขอลางาน
+        </button>
+    </a>
+    <a href="{% url 'logout' %}">
+        <button class="btn btn-danger" href="{% url 'logout' %}" role="button">Logout</button>
+    </a>
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

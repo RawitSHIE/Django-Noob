@@ -10,40 +10,46 @@
 
 </head>
 <body>
-<div class="container">
-    <h1>Hello Humanity</h1>
+<div class="container col-6" style="margin-top: 100px">
+    <h1>ทำเรื่องการลา</h1>
 
     {% if success %}
-        <h4 style="color:red">
+        <div class="alert alert-primary" role="alert">
         {{ success }}
-        </h4>
+        </div>
     {% endif %}
 
+        {% for error in field_errors %}
+            <div class="alert alert-danger">
+                {{ error }}
+            </div>
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+                {{ error }}
+            </div>
+        {% endfor %}
+    {{ form.management_form }}
 <form method="POST" action="{% url 'dayoff' %}">
     {% csrf_token %}
-    {{ form.management_form }}
+
         <div class="form-group">
-            <div>
-                {{ form.reason.label }}
-            </div>
-            <div>
-                {{ form.reason }}
-            </div>
+            {{ form.reason.error }}
+            {{ form.reason.label }}
+            {{ form.reason }}
         </div>
         <div class="form-group">
-            <div>
-                {{ form.type.label }}
-            </div>
-            <div>
-                {{ form.type }}
-            </div>
+            {{ form.type.label }}
+            {{ form.type }}
         </div>
         <div class="form-group">
-            {{ form.date_start.label }}<br>
+            {{ form.date_start.error }}
+            {{ form.date_start.label }}
             {{ form.date_start }}
         </div>
         <div class="form-group">
-            {{ form.date_end.label }}<br>
+            {{ form.date_end.error }}
+            {{ form.date_end.label }}
             {{ form.date_end }}
         </div>
 
